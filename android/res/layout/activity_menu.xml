@@ -14,18 +14,35 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:gravity="center_horizontal">
-        <Button
-            android:id="@+id/vs_computer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="vs computer"/>
+        app:layout_constraintTop_toTopOf="parent">
 
-        <Button
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal">
+        <TextView
+            android:text="@string/selector_unselected"
+            style="@style/main_menu_button_selector_style"/>
+        <TextView
+            android:id="@+id/vs_computer"
+            android:layout_width="match_parent"
+            android:text="@string/vs_computer"
+            style="@style/main_menu_button_style"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal">
+        <TextView
+            android:text="@string/selector_unselected"
+            style="@style/main_menu_button_selector_style"/>
+        <TextView
             android:id="@+id/vs_player"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="vs player"/>
+            style="@style/main_menu_button_style"
+            android:layout_width="match_parent"
+            android:text="@string/vs_player" />
+    </LinearLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

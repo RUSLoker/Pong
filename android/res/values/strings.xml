@@ -2,5 +2,9 @@
 <resources>
 
     <string name="app_name">Pong</string>
+    <string name="vs_computer">VS Computer</string>
+    <string name="vs_player">VS Player</string>
+    <string name="selector_selected"><![CDATA[>>>]]></string>
+    <string name="selector_unselected"><![CDATA[>]]></string>
 
 </resources>
