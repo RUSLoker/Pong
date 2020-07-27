@@ -14,17 +14,20 @@ import java.util.Collection;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class testBot {
+public class TestBot {
     private Ball ball;
     private Plank plank;
     private Timer timer;
 
-    public testBot(){
+    public TestBot(){
         timer = new Timer();
     }
 
     private void check() {
         updateEntities();
+        if (ball == null || plank == null) {
+            return;
+        }
         if (ball.getPosition().x > plank.getPosition().x + plank.getWidth() / 2 - plank.getWidth() / 10) {
             InputController.performPlayerMoveEvent(new Trio<>(Player.First, Side.Left, Action.Stop));
             InputController.performPlayerMoveEvent(new Trio<>(Player.First, Side.Right, Action.Start));
@@ -54,9 +57,8 @@ public class testBot {
                 break;
             }
         }
-        assert plank1 != null;
-        assert plank2 != null;
-        plank = plank1.getPosition().y < plank2.getPosition().y ? plank1 : plank2;
+        if (plank1 != null && plank2 != null)
+            plank = plank1.getPosition().y < plank2.getPosition().y ? plank1 : plank2;
     }
 
     public void stop(){
@@ -68,7 +70,7 @@ public class testBot {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                testBot.this.check();
+                TestBot.this.check();
             }
         }, 10, 10);
     }

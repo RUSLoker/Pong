@@ -25,6 +25,9 @@ public class PongBot {
 
     private void check() {
         updateEntities();
+        if (ball == null || plank == null) {
+            return;
+        }
         if (ball.getPosition().x > plank.getPosition().x + plank.getWidth() / 2 - plank.getWidth() / 10) {
             InputController.performPlayerMoveEvent(new Trio<>(Player.Second, Side.Right, Action.Stop));
             InputController.performPlayerMoveEvent(new Trio<>(Player.Second, Side.Left, Action.Start));
@@ -54,9 +57,8 @@ public class PongBot {
                 break;
             }
         }
-        assert plank1 != null;
-        assert plank2 != null;
-        plank = plank1.getPosition().y > plank2.getPosition().y ? plank1 : plank2;
+        if (plank1 != null && plank2 != null)
+            plank = plank1.getPosition().y > plank2.getPosition().y ? plank1 : plank2;
     }
 
     public void stop(){

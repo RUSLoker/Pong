@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.badlogic.gdx.backends.android.AndroidFragmentApplication;
 import com.rusloker.pong.ai.PongBot;
-import com.rusloker.pong.ai.testBot;
+import com.rusloker.pong.ai.TestBot;
 import com.rusloker.pong.engine.GameProcessor;
 
 public class GameActivity extends AppCompatActivity implements AndroidFragmentApplication.Callbacks {
@@ -28,7 +28,7 @@ public class GameActivity extends AppCompatActivity implements AndroidFragmentAp
         findViewById(R.id.startButton).setOnClickListener(v -> {
             GameProcessor.startGame();
             new PongBot().start();
-            new testBot().start();
+            new TestBot().start();
             v.setVisibility(View.GONE);
         });
         View.OnTouchListener listener = new GameActivityButtonsClickListener();
