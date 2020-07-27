@@ -21,7 +21,7 @@ public final class GameProcessor {
     private boolean playing;
     private Timer timer;
     private final List<GameEntity> entities;
-    private static final float PLANK_MOVING_SPEED = 5;
+    private static final float PLANK_MOVING_SPEED = 3;
     private static final float BALL_START_SPEED = 3;
     private Player turn;
     private static final float CALCULATION_DELAY = 0.01f;

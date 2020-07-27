@@ -12,6 +12,8 @@ import com.rusloker.pong.engine.GameProcessor;
 
 public class GameActivity extends AppCompatActivity implements AndroidFragmentApplication.Callbacks {
     GdxVisualiserFragment gdxVisualiserFragment;
+    public static final String GAME_TYPE = "gameType";
+    PongBot pongBot = new PongBot();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,8 +29,6 @@ public class GameActivity extends AppCompatActivity implements AndroidFragmentAp
         GameProcessor.createGame();
         findViewById(R.id.startButton).setOnClickListener(v -> {
             GameProcessor.startGame();
-            new PongBot().start();
-            new TestBot().start();
             v.setVisibility(View.GONE);
         });
         View.OnTouchListener listener = new GameActivityButtonsClickListener();
@@ -36,6 +36,19 @@ public class GameActivity extends AppCompatActivity implements AndroidFragmentAp
         findViewById(R.id.firstPlayerRight).setOnTouchListener(listener);
         findViewById(R.id.secondPlayerLeft).setOnTouchListener(listener);
         findViewById(R.id.secondPlayerRight).setOnTouchListener(listener);
+        Bundle bundle = getIntent().getExtras();
+        GameType gameType = GameType.VsComputer;
+        if (bundle != null) {
+            gameType = GameType.valueOf(bundle.getString(GAME_TYPE));
+        }
+        switch (gameType) {
+            case VsPlayer:
+                break;
+            case VsComputer:
+                pongBot.start();
+                findViewById(R.id.secondControls).setVisibility(View.GONE);
+                break;
+        }
     }
 
     @Override
@@ -57,6 +70,7 @@ public class GameActivity extends AppCompatActivity implements AndroidFragmentAp
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        pongBot.stop();
         GameProcessor.stopGame();
     }
 }
