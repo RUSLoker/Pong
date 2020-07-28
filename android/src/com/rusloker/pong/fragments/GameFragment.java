@@ -46,7 +46,6 @@ public class GameFragment extends Fragment implements AndroidFragmentApplication
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(GameViewModel.class);
-        // TODO: Use the ViewModel
         gdxVisualiserFragment = new GdxVisualiserFragment();
         getChildFragmentManager()
                 .beginTransaction()
@@ -62,7 +61,7 @@ public class GameFragment extends Fragment implements AndroidFragmentApplication
         getView().findViewById(R.id.firstPlayerRight).setOnTouchListener(listener);
         getView().findViewById(R.id.secondPlayerLeft).setOnTouchListener(listener);
         getView().findViewById(R.id.secondPlayerRight).setOnTouchListener(listener);
-        GameMode gameMode = GameMode.VsComputer;
+        GameMode gameMode = mViewModel.getGameMode();
         switch (gameMode) {
             case VsPlayer:
                 break;
@@ -125,13 +124,6 @@ public class GameFragment extends Fragment implements AndroidFragmentApplication
             assert player != null;
             assert action != null;
             InputController.performPlayerMoveEvent(new Trio<>(player, side, action));
-
-            //TODO: delete following block
-            /*if (player == Player.First && side == Side.Left) {
-                InputController.performPlayerMoveEvent(new Trio<>(Player.Second, Side.Right, action));
-            } else if (player == Player.First && side == Side.Right) {
-                InputController.performPlayerMoveEvent(new Trio<>(Player.Second, Side.Left, action));
-            }*/
 
             v.performClick();
             return false;

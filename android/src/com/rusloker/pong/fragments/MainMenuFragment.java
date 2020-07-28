@@ -42,21 +42,18 @@ public class MainMenuFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(MainMenuViewModel.class);
-        // TODO: Use the ViewModel
         setDefault((TextView)getView().findViewById(R.id.vs_computer));
         setDefault((TextView)getView().findViewById(R.id.vs_player));
         setDefault((TextView)getView().findViewById(R.id.online));
         setDefault((TextView)getView().findViewById(R.id.exit));
-        getView().findViewById(R.id.vs_computer).setOnTouchListener((v, event) ->
-                touchMenuButton(v, event, R.id.action_mainMenuFragment_to_gameFragment));
-        getView().findViewById(R.id.vs_player).setOnTouchListener((v, event) ->
-                touchMenuButton(v, event, R.id.action_mainMenuFragment_to_gameFragment));
-        getView().findViewById(R.id.online).setOnTouchListener((v, event) ->
-                touchMenuButton(v, event, -1));
+        getView().findViewById(R.id.vs_computer).setOnTouchListener(this::touchMenuButton);
+        getView().findViewById(R.id.vs_player).setOnTouchListener(this::touchMenuButton);
+        getView().findViewById(R.id.online).setOnTouchListener(this::touchMenuButton);
+        getView().findViewById(R.id.exit).setOnTouchListener(this::touchMenuButton);
 
     }
 
-    private boolean touchMenuButton(View v, MotionEvent event, int actionId) {
+    private boolean touchMenuButton(View v, MotionEvent event) {
         int action = event.getActionMasked();
         Log.i("TouchEventMainMenu", Integer.toString(action));
         switch (action) {
@@ -64,10 +61,8 @@ public class MainMenuFragment extends Fragment {
                 setSelected((TextView) v);
                 return true;
             case MotionEvent.ACTION_UP:
-                if(actionId != -1) {
-                    NavHostFragment.findNavController(this)
-                            .navigate(actionId);
-                }
+                mViewModel.menuButtonClicked(v.getId());
+                NavHostFragment.findNavController(this).navigate(R.id.action_mainMenuFragment_to_gameFragment);
                 v.performClick();
             case MotionEvent.ACTION_CANCEL:
                 setUnselected((TextView) v);
