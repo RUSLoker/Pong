@@ -21,11 +21,13 @@ public final class GameRepository {
     private Map<Class<? extends GameEntity>, TextureRegion> textures;
     private static volatile GameRepository instance;
     private Collection<GameEntity> entities;
+    private GameMode gameMode;
 
     private GameRepository(){
         textures = new HashMap<>();
         drawables = new HashMap<>();
         entities = Collections.emptyList();
+        gameMode = GameMode.VsComputer;
     }
 
     private static GameRepository getInstance() {
@@ -87,4 +89,13 @@ public final class GameRepository {
         instance.SCREEN_WIDTH = Gdx.graphics.getWidth();
     }
 
+    public static GameMode getGameMode(){
+        GameRepository instance = getInstance();
+        return instance.gameMode;
+    }
+
+    public static void setGameMode(GameMode gameMode){
+        GameRepository instance = getInstance();
+        instance.gameMode = gameMode;
+    }
 }

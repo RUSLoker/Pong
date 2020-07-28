@@ -9,14 +9,19 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.badlogic.gdx.backends.android.AndroidFragmentApplication;
-import com.rusloker.pong.GameButtonsClickListener;
-import com.rusloker.pong.GameType;
+import com.rusloker.pong.Action;
+import com.rusloker.pong.GameMode;
 import com.rusloker.pong.GdxVisualiserFragment;
+import com.rusloker.pong.InputController;
+import com.rusloker.pong.Player;
 import com.rusloker.pong.R;
+import com.rusloker.pong.Side;
+import com.rusloker.pong.Trio;
 import com.rusloker.pong.ai.PongBot;
 import com.rusloker.pong.engine.GameProcessor;
 import com.rusloker.pong.viewmodels.GameViewModel;
@@ -57,8 +62,8 @@ public class GameFragment extends Fragment implements AndroidFragmentApplication
         getView().findViewById(R.id.firstPlayerRight).setOnTouchListener(listener);
         getView().findViewById(R.id.secondPlayerLeft).setOnTouchListener(listener);
         getView().findViewById(R.id.secondPlayerRight).setOnTouchListener(listener);
-        GameType gameType = GameType.VsComputer;
-        switch (gameType) {
+        GameMode gameMode = GameMode.VsComputer;
+        switch (gameMode) {
             case VsPlayer:
                 break;
             case VsComputer:
@@ -79,5 +84,57 @@ public class GameFragment extends Fragment implements AndroidFragmentApplication
         pongBot.stop();
         GameProcessor.stopGame();
 
+    }
+
+    private static class GameButtonsClickListener implements View.OnTouchListener {
+
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            int motionAction = event.getActionMasked();
+            Action action = null;
+            Player player = null;
+            Side side = null;
+            switch (motionAction) {
+                case MotionEvent.ACTION_DOWN:
+                    action = Action.Start;
+                    break;
+                case MotionEvent.ACTION_CANCEL:
+                case MotionEvent.ACTION_UP:
+                    action = Action.Stop;
+                    break;
+            }
+            switch (v.getId()) {
+                case R.id.firstPlayerLeft:
+                    player = Player.First;
+                    side = Side.Left;
+                    break;
+                case R.id.firstPlayerRight:
+                    player = Player.First;
+                    side = Side.Right;
+                    break;
+                case R.id.secondPlayerLeft:
+                    player = Player.Second;
+                    side = Side.Left;
+                    break;
+                case R.id.secondPlayerRight:
+                    player = Player.Second;
+                    side = Side.Right;
+                    break;
+            }
+
+            assert player != null;
+            assert action != null;
+            InputController.performPlayerMoveEvent(new Trio<>(player, side, action));
+
+            //TODO: delete following block
+            /*if (player == Player.First && side == Side.Left) {
+                InputController.performPlayerMoveEvent(new Trio<>(Player.Second, Side.Right, action));
+            } else if (player == Player.First && side == Side.Right) {
+                InputController.performPlayerMoveEvent(new Trio<>(Player.Second, Side.Left, action));
+            }*/
+
+            v.performClick();
+            return false;
+        }
     }
 }

@@ -28,10 +28,10 @@ public class PongBot {
         if (ball == null || plank == null) {
             return;
         }
-        if (ball.getPosition().x > plank.getPosition().x + plank.getWidth() / 2 - plank.getWidth() / 10) {
+        if (ball.getPosition().x > plank.getPosition().x + plank.getWidth() / 2 - plank.getWidth() / 9) {
             InputController.performPlayerMoveEvent(new Trio<>(Player.Second, Side.Right, Action.Stop));
             InputController.performPlayerMoveEvent(new Trio<>(Player.Second, Side.Left, Action.Start));
-        } else if (ball.getPosition().x < plank.getPosition().x - plank.getWidth() / 2 + plank.getWidth() / 10) {
+        } else if (ball.getPosition().x < plank.getPosition().x - plank.getWidth() / 2 + plank.getWidth() / 9) {
             InputController.performPlayerMoveEvent(new Trio<>(Player.Second, Side.Left, Action.Stop));
             InputController.performPlayerMoveEvent(new Trio<>(Player.Second, Side.Right, Action.Start));
         } else if (ball.getPosition().x > plank.getPosition().x

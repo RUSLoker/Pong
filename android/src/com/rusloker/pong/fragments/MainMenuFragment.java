@@ -43,12 +43,16 @@ public class MainMenuFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(MainMenuViewModel.class);
         // TODO: Use the ViewModel
+        setDefault((TextView)getView().findViewById(R.id.vs_computer));
+        setDefault((TextView)getView().findViewById(R.id.vs_player));
+        setDefault((TextView)getView().findViewById(R.id.online));
+        setDefault((TextView)getView().findViewById(R.id.exit));
         getView().findViewById(R.id.vs_computer).setOnTouchListener((v, event) ->
                 touchMenuButton(v, event, R.id.action_mainMenuFragment_to_gameFragment));
         getView().findViewById(R.id.vs_player).setOnTouchListener((v, event) ->
                 touchMenuButton(v, event, R.id.action_mainMenuFragment_to_gameFragment));
         getView().findViewById(R.id.online).setOnTouchListener((v, event) ->
-                touchMenuButton(v, event, R.id.action_mainMenuFragment_to_gameFragment));
+                touchMenuButton(v, event, -1));
 
     }
 
@@ -57,18 +61,33 @@ public class MainMenuFragment extends Fragment {
         Log.i("TouchEventMainMenu", Integer.toString(action));
         switch (action) {
             case MotionEvent.ACTION_DOWN:
-                ((TextView)v.findViewById(R.id.prefix)).setGravity(Gravity.END);
+                setSelected((TextView) v);
                 return true;
             case MotionEvent.ACTION_UP:
-                NavHostFragment.findNavController(this)
-                        .navigate(actionId);
+                if(actionId != -1) {
+                    NavHostFragment.findNavController(this)
+                            .navigate(actionId);
+                }
                 v.performClick();
-            case MotionEvent.ACTION_OUTSIDE:
             case MotionEvent.ACTION_CANCEL:
-                ((TextView)v.findViewById(R.id.prefix)).setGravity(Gravity.START);
+                setUnselected((TextView) v);
                 return true;
         }
         return false;
     }
 
+    private void setUnselected(TextView textView) {
+        CharSequence text = textView.getText();
+        textView.setText(String.format("%s %s", getResources().getString(R.string.selector), text.subSequence(2, text.length())));
+    }
+
+    private void setSelected(TextView textView) {
+        CharSequence text = textView.getText();
+        textView.setText(String.format(" %s%s", getResources().getString(R.string.selector), text.subSequence(2, text.length())));
+    }
+
+    private void setDefault(TextView textView) {
+        CharSequence text = textView.getText();
+        textView.setText(String.format("%s %s", getResources().getString(R.string.selector), text));
+    }
 }
