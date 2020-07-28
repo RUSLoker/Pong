@@ -6,6 +6,8 @@
     <string name="vs_player">Offline 1 vs 1</string>
     <string name="online">Online</string>
     <string name="exit">Exit</string>
-    <string name="selector">></string>
+    <string name="selector"><![CDATA[>]]></string>
+    <string name="arrow_left"><![CDATA[[<]]]></string>
+    <string name="arrow_right"><![CDATA[[>]]]></string>
 
 </resources>

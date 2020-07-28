@@ -59,7 +59,7 @@ public final class GameProcessor {
         instance.firstScore = 0;
         instance.secondScore = 0;
         instance.setBallStartPosition();
-        instance.firstPlank.setPosition(4.5f, Plank.HEIGHT + 0.2f);
+        instance.firstPlank.setPosition(4.5f, Plank.HEIGHT + 0.4f);
         instance.secondPlank.setPosition(4.5f, 15.80f - Plank.HEIGHT);
         instance.entities.add(instance.ball);
         instance.entities.add(instance.firstPlank);

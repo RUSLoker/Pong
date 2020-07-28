@@ -1,4 +1,4 @@
-package com.rusloker.pong;
+package com.rusloker.pong.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.badlogic.gdx.backends.android.AndroidFragmentApplication;
+import com.rusloker.pong.GdxVisualiser;
 
 public class GdxVisualiserFragment extends AndroidFragmentApplication {
     GdxVisualiser game;

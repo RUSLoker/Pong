@@ -27,7 +27,7 @@ public final class InputController {
     }
 
     private static InputController getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             synchronized (InputController.class) {
                 InputController curInstance = instance;
                 if (curInstance == null) {
@@ -42,8 +42,8 @@ public final class InputController {
         return getInstance().playerMoveEvent;
     }
 
-    public static void performPlayerMoveEvent(Trio<Player, Side, Action> trio){
-        if(Gdx.app != null)
+    public static void performPlayerMoveEvent(Trio<Player, Side, Action> trio) {
+        if (Gdx.app != null)
             Gdx.app.log("playerMotionEvent", trio.first + " " + trio.second + " " + trio.third);
         getInstance().playerMoveEvent.call(trio);
     }
@@ -53,10 +53,17 @@ public final class InputController {
     }
 
     private void setPlayerMotionEventsActivity(Trio<Player, Side, Action> t) {
-        if(t.third == Action.Stop) {
+        if (t.third == Action.Stop) {
             playerMotionEventsActivity.put(new Pair<>(t.first, t.second), false);
         } else if (t.third == Action.Start) {
             playerMotionEventsActivity.put(new Pair<>(t.first, t.second), true);
+        }
+    }
+
+    public static void clearInputs() {
+        InputController instance = getInstance();
+        for (Pair<Player, Side> i : instance.playerMotionEventsActivity.keySet()) {
+            instance.playerMotionEventsActivity.put(i, false);
         }
     }
 }

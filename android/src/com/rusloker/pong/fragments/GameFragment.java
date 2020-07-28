@@ -16,7 +16,6 @@ import android.view.ViewGroup;
 import com.badlogic.gdx.backends.android.AndroidFragmentApplication;
 import com.rusloker.pong.Action;
 import com.rusloker.pong.GameMode;
-import com.rusloker.pong.GdxVisualiserFragment;
 import com.rusloker.pong.InputController;
 import com.rusloker.pong.Player;
 import com.rusloker.pong.R;
@@ -82,7 +81,7 @@ public class GameFragment extends Fragment implements AndroidFragmentApplication
         super.onDetach();
         pongBot.stop();
         GameProcessor.stopGame();
-
+        InputController.clearInputs();
     }
 
     private static class GameButtonsClickListener implements View.OnTouchListener {
@@ -95,10 +94,12 @@ public class GameFragment extends Fragment implements AndroidFragmentApplication
             Side side = null;
             switch (motionAction) {
                 case MotionEvent.ACTION_DOWN:
+                    v.setAlpha(1);
                     action = Action.Start;
                     break;
                 case MotionEvent.ACTION_CANCEL:
                 case MotionEvent.ACTION_UP:
+                    v.setAlpha(0.2f);
                     action = Action.Stop;
                     break;
             }
@@ -126,7 +127,7 @@ public class GameFragment extends Fragment implements AndroidFragmentApplication
             InputController.performPlayerMoveEvent(new Trio<>(player, side, action));
 
             v.performClick();
-            return false;
+            return true;
         }
     }
 }

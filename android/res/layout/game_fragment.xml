@@ -32,37 +32,33 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.5" />
 
-    <Button
+    <TextView
         android:id="@+id/firstPlayerLeft"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:alpha="0.5"
+        style="@style/arrow_style"
+        android:text="@string/arrow_left"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
+    <TextView
         android:id="@+id/firstPlayerRight"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:alpha="0.5"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <Button
-        android:id="@+id/secondPlayerRight"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:alpha="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/secondPlayerLeft"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:alpha="0.5"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:text="@string/arrow_right"
+        style="@style/arrow_style"/>
+
+    <TextView
+        android:id="@+id/secondPlayerRight"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="@string/arrow_left"
+        style="@style/arrow_style"/>
+
+    <TextView
+        android:id="@+id/secondPlayerLeft"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="@string/arrow_right"
+        style="@style/arrow_style" />
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/secondControls"
