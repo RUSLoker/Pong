@@ -6,10 +6,6 @@
     <string name="vs_player">Offline 1 vs 1</string>
     <string name="online">Online</string>
     <string name="exit">Exit</string>
-    <string name="selector_selected"><![CDATA[>>>]]></string>
-    <string name="selector_unselected"><![CDATA[>]]></string>
-    <string name="title_activity_main">FullscreenActivity</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="selector">&#8195;></string>
 
 </resources>

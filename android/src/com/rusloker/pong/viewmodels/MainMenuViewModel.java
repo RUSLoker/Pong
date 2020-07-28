@@ -1,4 +1,4 @@
-package com.rusloker.pong;
+package com.rusloker.pong.viewmodels;
 
 import androidx.lifecycle.ViewModel;
 

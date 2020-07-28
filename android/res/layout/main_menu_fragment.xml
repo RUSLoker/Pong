@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_color"
-    tools:context=".MainMenuFragment">
+    tools:context=".fragments.MainMenuFragment">
 
     <TextView
         android:id="@+id/qqq"
@@ -34,51 +34,57 @@
         app:layout_constraintVertical_bias="0.0">
 
         <LinearLayout
+            android:id="@+id/online"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/prefix"
                 style="@style/main_menu_button_selector_style"
-                android:text="@string/selector_unselected" />
+                android:text="@string/selector"
+                tools:ignore="DuplicateIds"/>
 
             <TextView
-                android:id="@+id/online"
                 style="@style/main_menu_button_style"
                 android:layout_width="match_parent"
-                android:text="@string/online" />
+                android:text="@string/online"/>
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/vs_computer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/prefix"
                 style="@style/main_menu_button_selector_style"
-                android:text="@string/selector_unselected" />
+                android:text="@string/selector"
+                tools:ignore="DuplicateIds" />
 
             <TextView
-                android:id="@+id/vs_computer"
                 style="@style/main_menu_button_style"
                 android:layout_width="match_parent"
                 android:text="@string/vs_computer" />
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/vs_player"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/prefix"
                 style="@style/main_menu_button_selector_style"
-                android:text="@string/selector_unselected" />
+                android:text="@string/selector"
+                tools:ignore="DuplicateIds" />
 
             <TextView
-                android:id="@+id/vs_player"
                 style="@style/main_menu_button_style"
                 android:layout_width="match_parent"
                 android:text="@string/vs_player" />
@@ -86,6 +92,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/exit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -95,11 +102,12 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
         <TextView
+            android:id="@+id/prefix"
             style="@style/main_menu_button_selector_style"
-            android:text="@string/selector_unselected" />
+            android:text="@string/selector"
+            tools:ignore="DuplicateIds" />
 
         <TextView
-            android:id="@+id/exit"
             style="@style/main_menu_button_style"
             android:layout_width="match_parent"
             android:text="@string/exit" />
@@ -117,6 +125,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.05109489" />
+        app:layout_constraintGuide_percent="0.05" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

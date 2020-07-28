@@ -3,7 +3,7 @@ package com.rusloker.pong;
 import android.view.MotionEvent;
 import android.view.View;
 
-public class GameActivityButtonsClickListener implements View.OnTouchListener {
+public class GameButtonsClickListener implements View.OnTouchListener {
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
@@ -12,10 +12,10 @@ public class GameActivityButtonsClickListener implements View.OnTouchListener {
         Player player = null;
         Side side = null;
         switch (motionAction) {
-            case MotionEvent.ACTION_MOVE:
             case MotionEvent.ACTION_DOWN:
                 action = Action.Start;
                 break;
+            case MotionEvent.ACTION_CANCEL:
             case MotionEvent.ACTION_UP:
                 action = Action.Stop;
                 break;

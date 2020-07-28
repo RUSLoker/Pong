@@ -7,7 +7,16 @@
 
     <fragment
         android:id="@+id/mainMenuFragment"
-        android:name="com.rusloker.pong.MainMenuFragment"
+        android:name="com.rusloker.pong.fragments.MainMenuFragment"
         android:label="main_menu_fragment"
-        tools:layout="@layout/main_menu_fragment" />
+        tools:layout="@layout/main_menu_fragment" >
+        <action
+            android:id="@+id/action_mainMenuFragment_to_gameFragment"
+            app:destination="@id/gameFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/gameFragment"
+        android:name="com.rusloker.pong.fragments.GameFragment"
+        android:label="game_fragment"
+        tools:layout="@layout/game_fragment" />
 </navigation>
