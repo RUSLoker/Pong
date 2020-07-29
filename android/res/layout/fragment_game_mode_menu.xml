@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:tools="http://schemas.android.com/tools">
+
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_color"
     android:clipToPadding="true"
-    tools:context=".fragments.MainMenuFragment">
+    tools:context=".fragments.GameModeMenuFragment">
 
     <TextView
-        android:id="@+id/qqq"
+        android:id="@+id/header"
         style="@style/main_menu_button_style"
         android:layout_width="wrap_content"
         android:lineHeight="40sp"
@@ -30,7 +33,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/qqq"
+        app:layout_constraintStart_toStartOf="@+id/header"
         app:layout_constraintTop_toTopOf="@+id/guideline"
         app:layout_constraintVertical_bias="0.0">
 
@@ -38,30 +41,24 @@
             android:id="@+id/online"
             style="@style/main_menu_button_style"
             android:layout_width="match_parent"
-            android:text="@string/online" />
+            android:text="@string/online"
+            tools:text="> Online"/>
 
         <TextView
             android:id="@+id/vs_computer"
             style="@style/main_menu_button_style"
             android:layout_width="match_parent"
-            android:text="@string/vs_computer" />
+            android:text="@string/vs_computer"
+            tools:text="> Vs Computer"/>
+
 
         <TextView
             android:id="@+id/vs_player"
             style="@style/main_menu_button_style"
             android:layout_width="match_parent"
-            android:text="@string/vs_player" />
+            android:text="@string/vs_player"
+            tools:text="> Vs Player"/>
 
-
-        <TextView
-            style="@style/main_menu_button_style"
-            android:layout_width="match_parent" />
-
-        <TextView
-            android:id="@+id/exit"
-            style="@style/main_menu_button_style"
-            android:layout_width="match_parent"
-            android:text="@string/exit" />
     </LinearLayout>
 
     <androidx.constraintlayout.widget.Guideline
@@ -79,3 +76,4 @@
         app:layout_constraintGuide_percent="0.05" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

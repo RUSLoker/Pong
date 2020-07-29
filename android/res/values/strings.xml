@@ -3,11 +3,13 @@
 
     <string name="app_name">Pong</string>
     <string name="vs_computer">vs Computer</string>
-    <string name="vs_player">Offline 1 vs 1</string>
+    <string name="vs_player">Offline together</string>
     <string name="online">Online</string>
     <string name="exit">Exit</string>
     <string name="selector"><![CDATA[>]]></string>
     <string name="arrow_left"><![CDATA[[<]]]></string>
     <string name="arrow_right"><![CDATA[[>]]]></string>
+    <string name="play">Play</string>
+    <string name="settings">Settings</string>
 
 </resources>

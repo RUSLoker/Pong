@@ -3,10 +3,11 @@ package com.rusloker.pong.fragments;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.fragment.NavHostFragment;
 
 import android.util.Log;
@@ -17,22 +18,26 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.rusloker.pong.R;
-import com.rusloker.pong.databinding.FragmentMainMenuBinding;
+import com.rusloker.pong.databinding.FragmentGameModeMenuBinding;
+import com.rusloker.pong.viewmodels.GameModeMenuViewModel;
 
+public class GameModeMenuFragment extends Fragment {
 
-public class MainMenuFragment extends Fragment {
+    private GameModeMenuViewModel mViewModel;
+    FragmentGameModeMenuBinding binder;
 
-    FragmentMainMenuBinding binder;
+    public GameModeMenuFragment() {}
 
-    public static MainMenuFragment newInstance() {
-        return new MainMenuFragment();
+    public static GameModeMenuFragment newInstance() {
+        return new GameModeMenuFragment();
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         binder = DataBindingUtil.inflate(
-                inflater, R.layout.fragment_main_menu, container, false);
+                inflater, R.layout.fragment_game_mode_menu, container, false);
+        mViewModel = new ViewModelProvider(this).get(GameModeMenuViewModel.class);
         return binder.getRoot();
     }
 
@@ -40,33 +45,25 @@ public class MainMenuFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        setDefault(binder.play);
-        setDefault(binder.settings);
-        setDefault(binder.exit);
-        binder.play.setOnTouchListener(this::touchMenuButton);
-        binder.settings.setOnTouchListener(this::touchMenuButton);
-        binder.exit.setOnTouchListener(this::touchMenuButton);
-
+        mViewModel = ViewModelProviders.of(this).get(GameModeMenuViewModel.class);
+        setDefault(binder.online);
+        setDefault(binder.vsComputer);
+        setDefault(binder.vsPlayer);
+        binder.online.setOnTouchListener(this::touchMenuButton);
+        binder.vsComputer.setOnTouchListener(this::touchMenuButton);
+        binder.vsPlayer.setOnTouchListener(this::touchMenuButton);
     }
 
     private boolean touchMenuButton(View v, MotionEvent event) {
         int action = event.getActionMasked();
         Log.i("TouchEventMainMenu", Integer.toString(action));
         setTextViewState((TextView) v, action);
-        if(action != MotionEvent.ACTION_UP) {
+        if (action != MotionEvent.ACTION_UP) {
             return true;
         }
-        switch (v.getId()) {
-            case R.id.play: {
-                NavHostFragment.findNavController(this)
-                        .navigate(R.id.action_mainMenuFragment_to_gameModeMenuFragment);
-                break;
-            }
-            case R.id.settings: {
-
-            }
-
-        }
+        mViewModel.menuButtonClicked(v.getId());
+        NavHostFragment.findNavController(this)
+                .navigate(R.id.action_gameModeMenuFragment_to_gameFragment);
         return true;
     }
 
@@ -81,7 +78,6 @@ public class MainMenuFragment extends Fragment {
                 break;
         }
     }
-
 
     private void setUnselected(TextView textView) {
         CharSequence text = textView.getText();

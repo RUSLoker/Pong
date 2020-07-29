@@ -1,15 +1,12 @@
 package com.rusloker.pong.viewmodels;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-import androidx.navigation.fragment.NavHostFragment;
 
 import com.rusloker.pong.GameMode;
 import com.rusloker.pong.GameRepository;
 import com.rusloker.pong.R;
 
-public class MainMenuViewModel extends ViewModel {
+public class GameModeMenuViewModel extends ViewModel {
 
     public void setGameMode(GameMode gameMode) {
         if (gameMode != null) {
