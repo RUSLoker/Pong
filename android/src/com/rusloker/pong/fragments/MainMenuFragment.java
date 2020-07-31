@@ -22,7 +22,7 @@ import com.rusloker.pong.databinding.FragmentMainMenuBinding;
 
 public class MainMenuFragment extends Fragment {
 
-    private FragmentMainMenuBinding binder;
+    private FragmentMainMenuBinding binding;
     private ObservableArrayMap<Integer, Boolean> pointerActivenessStates;
 
     public static MainMenuFragment newInstance() {
@@ -32,20 +32,20 @@ public class MainMenuFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        binder = DataBindingUtil.inflate(
+        binding = DataBindingUtil.inflate(
                 inflater, R.layout.fragment_main_menu, container, false);
         pointerActivenessStates = new ObservableArrayMap<>();
-        binder.setPointerActivenessStates(pointerActivenessStates);
-        return binder.getRoot();
+        binding.setPointerActivenessStates(pointerActivenessStates);
+        return binding.getRoot();
     }
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        binder.play.setOnTouchListener(this::touchMenuButton);
-        binder.settings.setOnTouchListener(this::touchMenuButton);
-        binder.exit.setOnTouchListener(this::touchMenuButton);
+        binding.play.setOnTouchListener(this::touchMenuButton);
+        binding.settings.setOnTouchListener(this::touchMenuButton);
+        binding.exit.setOnTouchListener(this::touchMenuButton);
 
     }
 

@@ -1,8 +1,9 @@
 package com.rusloker.pong.fragments;
 
+import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -23,13 +24,15 @@ import com.rusloker.pong.R;
 import com.rusloker.pong.Side;
 import com.rusloker.pong.Trio;
 import com.rusloker.pong.ai.PongBot;
+import com.rusloker.pong.databinding.FragmentGameBinding;
 import com.rusloker.pong.engine.GameProcessor;
 import com.rusloker.pong.viewmodels.GameViewModel;
 
 public class GameFragment extends Fragment implements AndroidFragmentApplication.Callbacks {
-    GdxVisualiserFragment gdxVisualiserFragment;
-    PongBot pongBot = new PongBot();
+    private GdxVisualiserFragment gdxVisualiserFragment;
+    private PongBot pongBot = new PongBot();
     private GameViewModel mViewModel;
+    private FragmentGameBinding binding;
 
     public static GameFragment newInstance() {
         return new GameFragment();
@@ -39,9 +42,12 @@ public class GameFragment extends Fragment implements AndroidFragmentApplication
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         mViewModel = new ViewModelProvider(this).get(GameViewModel.class);
-        return inflater.inflate(R.layout.game_fragment, container, false);
+        binding = DataBindingUtil.inflate(
+                inflater, R.layout.fragment_game, container, false);
+        return binding.getRoot();
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -51,22 +57,22 @@ public class GameFragment extends Fragment implements AndroidFragmentApplication
                 .replace(R.id.gameView, gdxVisualiserFragment).
                 commit();
         GameProcessor.createGame();
-        getView().findViewById(R.id.startButton).setOnClickListener(v -> {
+        binding.startButton.setOnClickListener(v -> {
             GameProcessor.startGame();
             v.setVisibility(View.GONE);
         });
         View.OnTouchListener listener = new GameButtonsClickListener();
-        getView().findViewById(R.id.firstPlayerLeft).setOnTouchListener(listener);
-        getView().findViewById(R.id.firstPlayerRight).setOnTouchListener(listener);
-        getView().findViewById(R.id.secondPlayerLeft).setOnTouchListener(listener);
-        getView().findViewById(R.id.secondPlayerRight).setOnTouchListener(listener);
+        binding.firstPlayerLeft.setOnTouchListener(listener);
+        binding.firstPlayerRight.setOnTouchListener(listener);
+        binding.secondPlayerLeft.setOnTouchListener(listener);
+        binding.secondPlayerRight.setOnTouchListener(listener);
         GameMode gameMode = mViewModel.getGameMode();
         switch (gameMode) {
             case VsPlayer:
                 break;
             case VsComputer:
                 pongBot.start();
-                getView().findViewById(R.id.secondControls).setVisibility(View.GONE);
+                binding.secondControls.setVisibility(View.GONE);
                 break;
         }
     }

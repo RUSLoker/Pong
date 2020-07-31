@@ -29,20 +29,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
 
-    <TextView
-        android:id="@+id/header2"
-        style="@style/main_menu_button_style"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:lineHeight="40sp"
-        android:text="C:\\Users\\Nickname\\Pong>\nChoose a game mode"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/guideline_vertical"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        app:layout_constraintVertical_bias="0.2" />
-
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="wrap_content"

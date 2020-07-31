@@ -22,7 +22,7 @@
         android:id="@+id/gameFragment"
         android:name="com.rusloker.pong.fragments.GameFragment"
         android:label="game_fragment"
-        tools:layout="@layout/game_fragment" />
+        tools:layout="@layout/fragment_game" />
     <fragment
         android:id="@+id/gameModeMenuFragment"
         android:name="com.rusloker.pong.fragments.GameModeMenuFragment"

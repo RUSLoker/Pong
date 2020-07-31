@@ -8,10 +8,8 @@ import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ObservableArrayMap;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.fragment.NavHostFragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -24,7 +22,7 @@ import com.rusloker.pong.viewmodels.GameModeMenuViewModel;
 public class GameModeMenuFragment extends Fragment {
 
     private GameModeMenuViewModel mViewModel;
-    private FragmentGameModeMenuBinding binder;
+    private FragmentGameModeMenuBinding binding;
     private ObservableArrayMap<Integer, Boolean> pointerActivenessStates;
 
     public GameModeMenuFragment() {}
@@ -36,12 +34,12 @@ public class GameModeMenuFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binder = DataBindingUtil.inflate(
+        binding = DataBindingUtil.inflate(
                 inflater, R.layout.fragment_game_mode_menu, container, false);
         mViewModel = new ViewModelProvider(this).get(GameModeMenuViewModel.class);
         pointerActivenessStates = new ObservableArrayMap<>();
-        binder.setPointerActivenessStates(pointerActivenessStates);
-        return binder.getRoot();
+        binding.setPointerActivenessStates(pointerActivenessStates);
+        return binding.getRoot();
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -49,9 +47,9 @@ public class GameModeMenuFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(GameModeMenuViewModel.class);
-        binder.online.setOnTouchListener(this::touchMenuButton);
-        binder.vsComputer.setOnTouchListener(this::touchMenuButton);
-        binder.vsPlayer.setOnTouchListener(this::touchMenuButton);
+        binding.online.setOnTouchListener(this::touchMenuButton);
+        binding.vsComputer.setOnTouchListener(this::touchMenuButton);
+        binding.vsPlayer.setOnTouchListener(this::touchMenuButton);
     }
 
     private boolean touchMenuButton(View v, MotionEvent event) {
