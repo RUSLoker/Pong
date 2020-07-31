@@ -109,8 +109,8 @@ public final class GameProcessor {
 
     public static void stopGame() {
         GameProcessor instance = getInstance();
-        if (instance.playing) {
-            instance.playing = false;
+        instance.playing = false;
+        if(instance.timer != null) {
             instance.timer.cancel();
             instance.timer.purge();
             instance.timer = null;

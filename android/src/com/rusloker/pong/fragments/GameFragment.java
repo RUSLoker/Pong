@@ -1,5 +1,6 @@
 package com.rusloker.pong.fragments;
 
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
@@ -27,7 +28,6 @@ import com.rusloker.pong.viewmodels.GameViewModel;
 
 public class GameFragment extends Fragment implements AndroidFragmentApplication.Callbacks {
     GdxVisualiserFragment gdxVisualiserFragment;
-    public static final String GAME_TYPE = "gameType";
     PongBot pongBot = new PongBot();
     private GameViewModel mViewModel;
 
@@ -38,13 +38,13 @@ public class GameFragment extends Fragment implements AndroidFragmentApplication
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        mViewModel = new ViewModelProvider(this).get(GameViewModel.class);
         return inflater.inflate(R.layout.game_fragment, container, false);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(GameViewModel.class);
         gdxVisualiserFragment = new GdxVisualiserFragment();
         getChildFragmentManager()
                 .beginTransaction()

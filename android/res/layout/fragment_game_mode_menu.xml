@@ -3,6 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="pointerActivenessStates"
+            type="androidx.databinding.ObservableArrayMap&lt;Integer, Boolean>" />
+    </data>
 
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
@@ -24,6 +29,20 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
 
+    <TextView
+        android:id="@+id/header2"
+        style="@style/main_menu_button_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:lineHeight="40sp"
+        android:text="C:\\Users\\Nickname\\Pong>\nChoose a game mode"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/guideline_vertical"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintVertical_bias="0.2" />
+
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="wrap_content"
@@ -41,14 +60,14 @@
             android:id="@+id/online"
             style="@style/main_menu_button_style"
             android:layout_width="match_parent"
-            android:text="@string/online"
-            tools:text="> Online"/>
+            android:text='@{pointerActivenessStates[@id/online] ? @string/online(@string/selector_active) : @string/online(@string/selector_inactive)}'
+            tools:text="> Online" />
 
         <TextView
             android:id="@+id/vs_computer"
             style="@style/main_menu_button_style"
             android:layout_width="match_parent"
-            android:text="@string/vs_computer"
+            android:text='@{pointerActivenessStates[@id/vs_computer] ? @string/vs_computer(@string/selector_active) : @string/vs_computer(@string/selector_inactive)}'
             tools:text="> Vs Computer"/>
 
 
@@ -56,7 +75,7 @@
             android:id="@+id/vs_player"
             style="@style/main_menu_button_style"
             android:layout_width="match_parent"
-            android:text="@string/vs_player"
+            android:text='@{pointerActivenessStates[@id/vs_player] ? @string/vs_player(@string/selector_active) : @string/vs_player(@string/selector_inactive)}'
             tools:text="> Vs Player"/>
 
     </LinearLayout>

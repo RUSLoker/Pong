@@ -12,7 +12,11 @@
         tools:layout="@layout/fragment_main_menu" >
         <action
             android:id="@+id/action_mainMenuFragment_to_gameModeMenuFragment"
-            app:destination="@id/gameModeMenuFragment" />
+            app:destination="@id/gameModeMenuFragment"
+            app:enterAnim="@anim/nav_slide_enter"
+            app:exitAnim="@anim/nav_slide_exit"
+            app:popEnterAnim="@anim/nav_slide_pop_enter"
+            app:popExitAnim="@anim/nav_slide_pop_exit" />
     </fragment>
     <fragment
         android:id="@+id/gameFragment"

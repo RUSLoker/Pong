@@ -3,6 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="pointerActivenessStates"
+            type="androidx.databinding.ObservableArrayMap&lt;Integer, Boolean>" />
+    </data>
 
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
@@ -41,21 +46,21 @@
             android:id="@+id/play"
             style="@style/main_menu_button_style"
             android:layout_width="match_parent"
-            android:text="@string/play"
+            android:text='@{pointerActivenessStates[@id/play] ? @string/play(@string/selector_active) : @string/play(@string/selector_inactive)}'
             tools:text="> Play"/>
 
         <TextView
             android:id="@+id/settings"
             style="@style/main_menu_button_style"
             android:layout_width="match_parent"
-            android:text="@string/settings"
+            android:text='@{pointerActivenessStates[@id/settings] ? @string/settings(@string/selector_active) : @string/settings(@string/selector_inactive)}'
             tools:text="> Settings"/>
 
         <TextView
             android:id="@+id/exit"
             style="@style/main_menu_button_style"
             android:layout_width="match_parent"
-            android:text="@string/exit"
+            android:text='@{pointerActivenessStates[@id/exit] ? @string/exit(@string/selector_active) : @string/exit(@string/selector_inactive)}'
             tools:text="> Exit"/>
 
     </LinearLayout>

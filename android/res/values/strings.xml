@@ -2,14 +2,16 @@
 <resources>
 
     <string name="app_name">Pong</string>
-    <string name="vs_computer">vs Computer</string>
-    <string name="vs_player">Offline together</string>
-    <string name="online">Online</string>
-    <string name="exit">Exit</string>
-    <string name="selector"><![CDATA[>]]></string>
+    <string name="vs_computer">%1$svs Computer</string>
+    <string name="vs_player">%1$sOffline together</string>
+    <string name="online">%1$sOnline</string>
+    <string name="exit">%1$sExit</string>
+    <string name="selector">></string>
+    <string name="selector_inactive">"> "</string>
+    <string name="selector_active">" >"</string>
     <string name="arrow_left"><![CDATA[[<]]]></string>
     <string name="arrow_right"><![CDATA[[>]]]></string>
-    <string name="play">Play</string>
-    <string name="settings">Settings</string>
+    <string name="play">%1$sPlay</string>
+    <string name="settings">%1$sSettings</string>
 
 </resources>

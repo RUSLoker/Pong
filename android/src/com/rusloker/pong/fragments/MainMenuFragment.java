@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
+import androidx.databinding.ObservableArrayMap;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
@@ -14,7 +15,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.rusloker.pong.R;
 import com.rusloker.pong.databinding.FragmentMainMenuBinding;
@@ -22,7 +22,8 @@ import com.rusloker.pong.databinding.FragmentMainMenuBinding;
 
 public class MainMenuFragment extends Fragment {
 
-    FragmentMainMenuBinding binder;
+    private FragmentMainMenuBinding binder;
+    private ObservableArrayMap<Integer, Boolean> pointerActivenessStates;
 
     public static MainMenuFragment newInstance() {
         return new MainMenuFragment();
@@ -33,6 +34,8 @@ public class MainMenuFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         binder = DataBindingUtil.inflate(
                 inflater, R.layout.fragment_main_menu, container, false);
+        pointerActivenessStates = new ObservableArrayMap<>();
+        binder.setPointerActivenessStates(pointerActivenessStates);
         return binder.getRoot();
     }
 
@@ -40,9 +43,6 @@ public class MainMenuFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        setDefault(binder.play);
-        setDefault(binder.settings);
-        setDefault(binder.exit);
         binder.play.setOnTouchListener(this::touchMenuButton);
         binder.settings.setOnTouchListener(this::touchMenuButton);
         binder.exit.setOnTouchListener(this::touchMenuButton);
@@ -52,7 +52,7 @@ public class MainMenuFragment extends Fragment {
     private boolean touchMenuButton(View v, MotionEvent event) {
         int action = event.getActionMasked();
         Log.i("TouchEventMainMenu", Integer.toString(action));
-        setTextViewState((TextView) v, action);
+        setTextViewState(v, action);
         if(action != MotionEvent.ACTION_UP) {
             return true;
         }
@@ -70,31 +70,17 @@ public class MainMenuFragment extends Fragment {
         return true;
     }
 
-    private void setTextViewState(TextView v, int action) {
+    private void setTextViewState(View v, int action) {
         switch (action) {
             case MotionEvent.ACTION_DOWN:
-                setSelected(v);
+                pointerActivenessStates.put(v.getId(), true);
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
-                setUnselected((TextView) v);
+                pointerActivenessStates.put(v.getId(), false);
                 break;
         }
     }
 
 
-    private void setUnselected(TextView textView) {
-        CharSequence text = textView.getText();
-        textView.setText(String.format("%s %s", getResources().getString(R.string.selector), text.subSequence(2, text.length())));
-    }
-
-    private void setSelected(TextView textView) {
-        CharSequence text = textView.getText();
-        textView.setText(String.format(" %s%s", getResources().getString(R.string.selector), text.subSequence(2, text.length())));
-    }
-
-    private void setDefault(TextView textView) {
-        CharSequence text = textView.getText();
-        textView.setText(String.format("%s %s", getResources().getString(R.string.selector), text));
-    }
 }
