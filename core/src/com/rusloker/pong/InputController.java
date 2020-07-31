@@ -43,8 +43,8 @@ public final class InputController {
     }
 
     public static void performPlayerMoveEvent(Trio<Player, Side, Action> trio) {
-        if (Gdx.app != null)
-            Gdx.app.log("playerMotionEvent", trio.first + " " + trio.second + " " + trio.third);
+//        if (Gdx.app != null)
+//            Gdx.app.log("playerMotionEvent", trio.first + " " + trio.second + " " + trio.third);
         getInstance().playerMoveEvent.call(trio);
     }
 

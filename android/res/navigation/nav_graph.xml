@@ -30,6 +30,10 @@
         tools:layout="@layout/fragment_game_mode_menu" >
         <action
             android:id="@+id/action_gameModeMenuFragment_to_gameFragment"
-            app:destination="@id/gameFragment" />
+            app:destination="@id/gameFragment"
+            app:enterAnim="@anim/nav_slide_enter"
+            app:exitAnim="@anim/nav_slide_exit"
+            app:popEnterAnim="@anim/nav_slide_pop_enter"
+            app:popExitAnim="@anim/nav_slide_pop_exit"/>
     </fragment>
 </navigation>
