@@ -35,11 +35,14 @@ import com.rusloker.pong.Trio;
 import com.rusloker.pong.databinding.FragmentGameBinding;
 import com.rusloker.pong.viewmodels.GameViewModel;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class GameFragment extends Fragment implements AndroidFragmentApplication.Callbacks {
     private GdxVisualiserFragment gdxVisualiserFragment;
     private GameViewModel mViewModel;
     private FragmentGameBinding binding;
-    Thread countdown;
+    Timer countdown;
 
     public static GameFragment newInstance() {
         return new GameFragment();
@@ -71,44 +74,51 @@ public class GameFragment extends Fragment implements AndroidFragmentApplication
                 binding.secondControls.setVisibility(View.GONE);
                 break;
         }
+
         binding.getRoot().getViewTreeObserver().addOnGlobalLayoutListener(
                 new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                countdown = new Thread(() -> {
-                    FragmentActivity activity = getActivity();
-                    if(activity == null) {
-                        return;
+                countdown = new Timer("countDown");
+                countdown.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        FragmentActivity activity = getActivity();
+                        if (activity != null) {
+                            activity.runOnUiThread(() -> binding.countdownText.setText("3"));
+                        }
                     }
-                    activity.runOnUiThread(() -> binding.countdownText.setText("3"));
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                }, 0);
+                countdown.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        FragmentActivity activity = getActivity();
+                        if (activity != null) {
+                            activity.runOnUiThread(() -> binding.countdownText.setText("2"));
+                        }
                     }
-                    activity.runOnUiThread(() -> binding.countdownText.setText("2"));
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                }, 1000);
+                countdown.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        FragmentActivity activity = getActivity();
+                        if (activity != null) {
+                            activity.runOnUiThread(() -> binding.countdownText.setText("1"));
+                        }
                     }
-                    activity.runOnUiThread(() -> binding.countdownText.setText("1"));
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                }, 2000);
+                countdown.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        FragmentActivity activity = getActivity();
+                        if (activity != null) {
+                            activity.runOnUiThread(() -> {
+                                binding.countdownText.setText(R.string.start);
+                                binding.countdownText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 100);
+                            });
+                        }
                     }
-                    activity.runOnUiThread(() -> {
-                        binding.countdownText.setText(R.string.start);
-                        binding.countdownText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 100);
-                    });
-                    try {
-                        Thread.sleep(500);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    mViewModel.countdownEnded();
-                });
+                }, 3000);
 
                 //Background resize
                 int width = binding.getRoot().getWidth();
@@ -134,18 +144,17 @@ public class GameFragment extends Fragment implements AndroidFragmentApplication
                 animation.setAnimationListener(new Animation.AnimationListener() {
                     @Override
                     public void onAnimationStart(Animation animation) {
-                        countdown.start();
+
                     }
 
                     @Override
                     public void onAnimationEnd(Animation animation) {
                         binding.countdown.setVisibility(View.GONE);
+                        mViewModel.countdownEnded();
                     }
 
                     @Override
-                    public void onAnimationRepeat(Animation animation) {
-                        Log.i("animation", "repeat");
-                    }
+                    public void onAnimationRepeat(Animation animation) { }
                 });
                 binding.countdownBackground.setAnimation(animation);
 
@@ -166,7 +175,7 @@ public class GameFragment extends Fragment implements AndroidFragmentApplication
     public void onDetach() {
         super.onDetach();
         if(countdown != null) {
-            countdown.interrupt();
+            countdown.cancel();
         }
         mViewModel.viewDetach();
         InputController.clearInputs();

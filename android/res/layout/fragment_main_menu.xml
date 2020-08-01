@@ -31,9 +31,10 @@
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="14.4dp"
+        android:layout_marginEnd="70dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -47,21 +48,21 @@
             style="@style/main_menu_button_style"
             android:layout_width="match_parent"
             android:text='@{pointerActivenessStates[@id/play] ? @string/play(@string/selector_active) : @string/play(@string/selector_inactive)}'
-            tools:text="> Play"/>
+            tools:text="> Play" />
 
         <TextView
             android:id="@+id/settings"
             style="@style/main_menu_button_style"
             android:layout_width="match_parent"
             android:text='@{pointerActivenessStates[@id/settings] ? @string/settings(@string/selector_active) : @string/settings(@string/selector_inactive)}'
-            tools:text="> Settings"/>
+            tools:text="> Settings" />
 
         <TextView
             android:id="@+id/exit"
             style="@style/main_menu_button_style"
             android:layout_width="match_parent"
             android:text='@{pointerActivenessStates[@id/exit] ? @string/exit(@string/selector_active) : @string/exit(@string/selector_inactive)}'
-            tools:text="> Exit"/>
+            tools:text="> Exit" />
 
     </LinearLayout>
 

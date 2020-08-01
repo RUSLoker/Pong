@@ -107,6 +107,7 @@ public final class GameRepository {
         GameRepository instance = getInstance();
         switch (instance.gameMode) {
             case VsComputer: {
+                instance.pongBot = new PongBot();
                 instance.pongBot.start();
                 break;
             }
@@ -117,6 +118,7 @@ public final class GameRepository {
     public static void stopGame() {
         GameRepository instance = getInstance();
         instance.pongBot.stop();
+        instance.pongBot = null;
         GameProcessor.stopGame();
     }
 
