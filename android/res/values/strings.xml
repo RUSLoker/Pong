@@ -13,5 +13,6 @@
     <string name="arrow_right"><![CDATA[[>]]]></string>
     <string name="play">%1$sPlay</string>
     <string name="settings">%1$sSettings</string>
+    <string name="start">Start!</string>
 
 </resources>

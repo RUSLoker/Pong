@@ -64,6 +64,11 @@ public class MainMenuFragment extends Fragment {
             }
             case R.id.settings: {
 
+                break;
+            }
+
+            case R.id.exit: {
+                getActivity().finishAndRemoveTask();
             }
 
         }

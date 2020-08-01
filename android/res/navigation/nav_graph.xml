@@ -31,9 +31,9 @@
         <action
             android:id="@+id/action_gameModeMenuFragment_to_gameFragment"
             app:destination="@id/gameFragment"
-            app:enterAnim="@anim/nav_slide_enter"
+            app:enterAnim="@anim/nav_fade_enter"
             app:exitAnim="@anim/nav_slide_exit"
             app:popEnterAnim="@anim/nav_slide_pop_enter"
-            app:popExitAnim="@anim/nav_slide_pop_exit"/>
+            app:popExitAnim="@anim/nav_fade_pop_exit" />
     </fragment>
 </navigation>
