@@ -4,8 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.rusloker.pong.ai.PongBot;
 import com.rusloker.pong.engine.Ball;
 import com.rusloker.pong.engine.GameEntity;
+import com.rusloker.pong.engine.GameProcessor;
 import com.rusloker.pong.engine.Plank;
 import com.rusloker.pong.engine.Vector2D;
 
@@ -22,12 +24,14 @@ public final class GameRepository {
     private static volatile GameRepository instance;
     private Collection<GameEntity> entities;
     private GameMode gameMode;
+    private PongBot pongBot;
 
     private GameRepository(){
         textures = new HashMap<>();
         drawables = new HashMap<>();
         entities = Collections.emptyList();
         gameMode = GameMode.VsComputer;
+        pongBot = new PongBot();
     }
 
     private static GameRepository getInstance() {
@@ -78,7 +82,7 @@ public final class GameRepository {
         return new Vector2D(x, y);
     }
 
-    public static void initialize() {
+    public static void initializeGraphics() {
         GameRepository instance = getInstance();
         Texture sprites = new Texture("sprites.png");
         TextureRegion plank = new TextureRegion(sprites, 10, 73, 333, 32);
@@ -97,5 +101,26 @@ public final class GameRepository {
     public static void setGameMode(GameMode gameMode){
         GameRepository instance = getInstance();
         instance.gameMode = gameMode;
+    }
+
+    public static void startGame() {
+        GameRepository instance = getInstance();
+        switch (instance.gameMode) {
+            case VsComputer: {
+                instance.pongBot.start();
+                break;
+            }
+        }
+        GameProcessor.startGame();
+    }
+
+    public static void stopGame() {
+        GameRepository instance = getInstance();
+        instance.pongBot.stop();
+        GameProcessor.stopGame();
+    }
+
+    public static void createGame() {
+        GameProcessor.createGame();
     }
 }

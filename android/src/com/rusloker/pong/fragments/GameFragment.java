@@ -21,7 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
+import android.view.animation.Interpolator;
 import android.view.animation.ScaleAnimation;
 
 import com.badlogic.gdx.backends.android.AndroidFragmentApplication;
@@ -32,17 +32,11 @@ import com.rusloker.pong.Player;
 import com.rusloker.pong.R;
 import com.rusloker.pong.Side;
 import com.rusloker.pong.Trio;
-import com.rusloker.pong.ai.PongBot;
 import com.rusloker.pong.databinding.FragmentGameBinding;
-import com.rusloker.pong.engine.GameProcessor;
 import com.rusloker.pong.viewmodels.GameViewModel;
-
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class GameFragment extends Fragment implements AndroidFragmentApplication.Callbacks {
     private GdxVisualiserFragment gdxVisualiserFragment;
-    private PongBot pongBot = new PongBot();
     private GameViewModel mViewModel;
     private FragmentGameBinding binding;
     Thread countdown;
@@ -56,15 +50,14 @@ public class GameFragment extends Fragment implements AndroidFragmentApplication
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         mViewModel = new ViewModelProvider(this).get(GameViewModel.class);
+        mViewModel.viewCreation();
         binding = DataBindingUtil.inflate(
                 inflater, R.layout.fragment_game, container, false);
-
         gdxVisualiserFragment = new GdxVisualiserFragment();
         getChildFragmentManager()
                 .beginTransaction()
                 .replace(R.id.gameView, gdxVisualiserFragment).
                 commit();
-        GameProcessor.createGame();
         View.OnTouchListener listener = new GameButtonsClickListener();
         binding.firstPlayerLeft.setOnTouchListener(listener);
         binding.firstPlayerRight.setOnTouchListener(listener);
@@ -75,7 +68,6 @@ public class GameFragment extends Fragment implements AndroidFragmentApplication
             case VsPlayer:
                 break;
             case VsComputer:
-                pongBot.start();
                 binding.secondControls.setVisibility(View.GONE);
                 break;
         }
@@ -115,16 +107,17 @@ public class GameFragment extends Fragment implements AndroidFragmentApplication
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    activity = getActivity();
-                    if(activity != null) {
-                        GameProcessor.startGame();
-                    }
+                    mViewModel.countdownEnded();
                 });
+
+                //Background resize
                 int width = binding.getRoot().getWidth();
                 int height = binding.getRoot().getHeight();
-                int diameter = (int) Math.ceil(Math.sqrt(width * width + height * height));
+                int diameter = (int) Math.ceil(1.2 * Math.sqrt(width * width + height * height));
                 ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(diameter, diameter);
                 binding.countdownBackground.setLayoutParams(params);
+
+                //Background centring
                 ConstraintSet set = new ConstraintSet();
                 set.clone((ConstraintLayout) binding.getRoot());
                 set.connect(binding.countdownBackground.getId(), ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, 0);
@@ -132,9 +125,12 @@ public class GameFragment extends Fragment implements AndroidFragmentApplication
                 set.connect(binding.countdownBackground.getId(), ConstraintSet.LEFT, ConstraintSet.PARENT_ID, ConstraintSet.LEFT, 0);
                 set.connect(binding.countdownBackground.getId(), ConstraintSet.RIGHT, ConstraintSet.PARENT_ID, ConstraintSet.RIGHT, 0);
                 set.applyTo((ConstraintLayout) binding.getRoot());
+
+                //Background animation
                 Animation animation = new ScaleAnimation(1f, 0f, 1f, 0f, diameter/2f, diameter/2f);
                 animation.setDuration(3500);
                 animation.setFillAfter(true);
+                animation.setInterpolator(new DecelerateInterpolator());
                 animation.setAnimationListener(new Animation.AnimationListener() {
                     @Override
                     public void onAnimationStart(Animation animation) {
@@ -152,6 +148,7 @@ public class GameFragment extends Fragment implements AndroidFragmentApplication
                     }
                 });
                 binding.countdownBackground.setAnimation(animation);
+
                 binding.getRoot().getViewTreeObserver().removeOnGlobalLayoutListener(this);
             }
         });
@@ -171,8 +168,7 @@ public class GameFragment extends Fragment implements AndroidFragmentApplication
         if(countdown != null) {
             countdown.interrupt();
         }
-        pongBot.stop();
-        GameProcessor.stopGame();
+        mViewModel.viewDetach();
         InputController.clearInputs();
     }
 
@@ -220,6 +216,14 @@ public class GameFragment extends Fragment implements AndroidFragmentApplication
 
             v.performClick();
             return true;
+        }
+    }
+
+    public static class DecelerateInterpolator implements Interpolator {
+
+        @Override
+        public float getInterpolation(float input) {
+            return (float) (0.1 * Math.E * Math.log(input) + 1);
         }
     }
 }

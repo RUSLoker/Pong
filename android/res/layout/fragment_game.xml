@@ -82,7 +82,7 @@
         app:constraint_referenced_ids="secondPlayerLeft,secondPlayerRight" />
 
     <androidx.constraintlayout.widget.Group
-        tools:visibility="visible"
+        tools:visibility="gone"
         android:id="@+id/countdown"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -20,7 +20,7 @@ public class PongBot {
     private Timer timer;
 
     public PongBot(){
-        timer = new Timer();
+        timer = new Timer("botTimer");
     }
 
     private void check() {

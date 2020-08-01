@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.rusloker.pong.engine.GameProcessor;
 
 import java.util.Collection;
 
@@ -19,9 +18,8 @@ public class GdxVisualiser extends ApplicationAdapter {
 	public void create () {
 		batch = new SpriteBatch();
 		shapeRenderer = new ShapeRenderer();
-		GameRepository.initialize();
+		GameRepository.initializeGraphics();
 		Gdx.graphics.setVSync(true);
-		GameProcessor.createGame();
 	}
 
 	@Override

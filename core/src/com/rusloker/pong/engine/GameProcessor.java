@@ -21,8 +21,8 @@ public final class GameProcessor {
     private boolean playing;
     private Timer timer;
     private final List<GameEntity> entities;
-    private static final float PLANK_MOVING_SPEED = 3;
-    private static final float BALL_START_SPEED = 3;
+    private static final float PLANK_MOVING_SPEED = 3.5f;
+    private static final float BALL_START_SPEED = 7;
     private Player turn;
     private static final float CALCULATION_DELAY = 0.01f;
     private float currentPlankSpeed = PLANK_MOVING_SPEED;
@@ -33,7 +33,7 @@ public final class GameProcessor {
         secondPlank = new Plank();
         random = new Random();
         playing = false;
-        timer = new Timer();
+        timer = new Timer("gameTimer");
         entities = new ArrayList<>(3);
         if (random.nextFloat() <= 0.5) {
             turn = Player.First;

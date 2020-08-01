@@ -9,4 +9,16 @@ public class GameViewModel extends ViewModel {
     public GameMode getGameMode() {
         return GameRepository.getGameMode();
     }
+
+    public void viewCreation() {
+        GameRepository.createGame();
+    }
+
+    public void countdownEnded() {
+        GameRepository.startGame();
+    }
+
+    public void viewDetach() {
+        GameRepository.stopGame();
+    }
 }
