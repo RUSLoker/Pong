@@ -51,6 +51,18 @@
         android:text="@string/arrow_right"
         style="@style/arrow_style" />
 
+    <TextView
+        android:id="@+id/pause"
+        style="@style/arrow_style"
+        android:fontFamily="@font/jetbrainsmono_extrabold"
+        android:text="||"
+        android:textSize="55sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageView
         android:id="@+id/countdownBackground"
         android:layout_width="1000dp"

@@ -4,7 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.rusloker.pong.ai.CleverPongBot;
 import com.rusloker.pong.ai.PongBot;
+import com.rusloker.pong.ai.StupidPongBot;
 import com.rusloker.pong.engine.Ball;
 import com.rusloker.pong.engine.GameEntity;
 import com.rusloker.pong.engine.GameProcessor;
@@ -24,14 +26,14 @@ public final class GameRepository {
     private static volatile GameRepository instance;
     private Collection<GameEntity> entities;
     private GameMode gameMode;
-    private PongBot pongBot;
+    private PongBot PongBot;
 
     private GameRepository(){
         textures = new HashMap<>();
         drawables = new HashMap<>();
         entities = Collections.emptyList();
         gameMode = GameMode.VsComputer;
-        pongBot = new PongBot();
+        PongBot = new CleverPongBot();
     }
 
     private static GameRepository getInstance() {
@@ -107,8 +109,8 @@ public final class GameRepository {
         GameRepository instance = getInstance();
         switch (instance.gameMode) {
             case VsComputer: {
-                instance.pongBot = new PongBot();
-                instance.pongBot.start();
+                instance.PongBot = new CleverPongBot();
+                instance.PongBot.start();
                 break;
             }
         }
@@ -117,12 +119,22 @@ public final class GameRepository {
 
     public static void stopGame() {
         GameRepository instance = getInstance();
-        instance.pongBot.stop();
-        instance.pongBot = null;
+        if(instance.PongBot != null) {
+            instance.PongBot.stop();
+            instance.PongBot = null;
+        }
         GameProcessor.stopGame();
     }
 
     public static void createGame() {
         GameProcessor.createGame();
+    }
+
+    public static void pauseGame() {
+        GameProcessor.pauseGame();
+    }
+
+    public static void resumeGame() {
+        GameProcessor.resumeGame();
     }
 }

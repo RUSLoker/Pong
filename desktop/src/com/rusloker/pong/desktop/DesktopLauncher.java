@@ -4,8 +4,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.rusloker.pong.GameRepository;
 import com.rusloker.pong.GdxVisualiser;
-import com.rusloker.pong.ai.PongBot;
-import com.rusloker.pong.ai.TestBot;
+import com.rusloker.pong.ai.CleverPongBot;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {
@@ -13,7 +12,6 @@ public class DesktopLauncher {
 		new LwjglApplication(new GdxVisualiser(), config);
 		GameRepository.createGame();
 		GameRepository.startGame();
-		new PongBot().start();
-		new TestBot().start();
+		new CleverPongBot().start();
 	}
 }

@@ -50,7 +50,7 @@ public class GdxVisualiser extends ApplicationAdapter {
 		shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 		shapeRenderer.setColor(1, 1, 1, 1);
 		for (float i = x + step / 2; i < x1; i += step + dotLength) {
-			shapeRenderer.rect(i, y, dotLength, dotHeight);
+			shapeRenderer.rect(i, y - dotHeight / 2, dotLength, dotHeight);
 		}
 		shapeRenderer.end();
 	}

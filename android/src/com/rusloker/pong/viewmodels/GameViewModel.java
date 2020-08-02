@@ -21,4 +21,12 @@ public class GameViewModel extends ViewModel {
     public void viewDetach() {
         GameRepository.stopGame();
     }
+
+    public void pause() {
+        GameRepository.pauseGame();
+    }
+
+    public void resume() {
+        GameRepository.resumeGame();
+    }
 }

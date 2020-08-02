@@ -4,7 +4,7 @@ public class Ball extends GameEntity {
     private Vector2D speed;
     public static final float RADIUS = 0.25f;
 
-    Ball() {
+    public Ball() {
         super();
         speed = Vector2D.zero;
     }

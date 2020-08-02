@@ -1,11 +1,6 @@
 package com.rusloker.pong.ai;
 
-import com.rusloker.pong.Action;
 import com.rusloker.pong.GameRepository;
-import com.rusloker.pong.InputController;
-import com.rusloker.pong.Player;
-import com.rusloker.pong.Side;
-import com.rusloker.pong.Trio;
 import com.rusloker.pong.engine.Ball;
 import com.rusloker.pong.engine.GameEntity;
 import com.rusloker.pong.engine.Plank;
@@ -14,34 +9,35 @@ import java.util.Collection;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class PongBot {
-    private Ball ball;
-    private Plank plank;
-    private Timer timer;
+public abstract class PongBot {
 
-    public PongBot(){
+    Ball ball;
+    Plank plank;
+    Timer timer;
+    long calculationDelayMillis;
+
+    PongBot(long calculationDelayMillis) {
+        this.calculationDelayMillis = calculationDelayMillis;
         timer = new Timer("botTimer");
     }
 
-    private void check() {
-        updateEntities();
-        if (ball == null || plank == null) {
-            return;
-        }
-        if (ball.getPosition().x > plank.getPosition().x + plank.getWidth() / 2 - plank.getWidth() / 9) {
-            InputController.performPlayerMoveEvent(new Trio<>(Player.Second, Side.Right, Action.Stop));
-            InputController.performPlayerMoveEvent(new Trio<>(Player.Second, Side.Left, Action.Start));
-        } else if (ball.getPosition().x < plank.getPosition().x - plank.getWidth() / 2 + plank.getWidth() / 9) {
-            InputController.performPlayerMoveEvent(new Trio<>(Player.Second, Side.Left, Action.Stop));
-            InputController.performPlayerMoveEvent(new Trio<>(Player.Second, Side.Right, Action.Start));
-        } else if (ball.getPosition().x > plank.getPosition().x
-                && InputController.isPlayerMotionEventActive(Player.Second, Side.Right)
-                || ball.getPosition().x < plank.getPosition().x
-                && InputController.isPlayerMotionEventActive(Player.Second, Side.Left)
-        ){
-            InputController.performPlayerMoveEvent(new Trio<>(Player.Second, Side.Left, Action.Stop));
-            InputController.performPlayerMoveEvent(new Trio<>(Player.Second, Side.Right, Action.Stop));
-        }
+    PongBot(){
+        this(10);
+    }
+
+    public void stop(){
+        timer.cancel();
+        timer.purge();
+    }
+
+    public void start() {
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                PongBot.this.updateEntities();
+                PongBot.this.check();
+            }
+        }, 10, calculationDelayMillis);
     }
 
     private void updateEntities() {
@@ -61,17 +57,5 @@ public class PongBot {
             plank = plank1.getPosition().y > plank2.getPosition().y ? plank1 : plank2;
     }
 
-    public void stop(){
-        timer.cancel();
-        timer.purge();
-    }
-
-    public void start() {
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                PongBot.this.check();
-            }
-        }, 10, 10);
-    }
+    abstract void check();
 }

@@ -21,10 +21,11 @@ public final class GameProcessor {
     private boolean playing;
     private Timer timer;
     private final List<GameEntity> entities;
-    private static final float PLANK_MOVING_SPEED = 5f;
-    private static final float BALL_START_SPEED = 9;
+    private static final float PLANK_MOVING_SPEED = 8f;
+    private static final float BALL_START_SPEED = 9f;
+    private static final float ANGLE_RANDOM_CONSTANT = 25f; /* recommended value is 20 */
     private Player turn;
-    private static final float CALCULATION_DELAY = 0.01f;
+    private static final float CALCULATION_DELAY = 0.002f;
     private float currentPlankSpeed = PLANK_MOVING_SPEED;
 
     private GameProcessor() {
@@ -92,19 +93,18 @@ public final class GameProcessor {
 
     public static void restartGame() {
         GameProcessor instance = getInstance();
-        if (instance.playing) {
-            instance.setBallStartPosition();
-            instance.firstPlank.setPosition(4.5f, Plank.HEIGHT + 0.2f);
-            instance.secondPlank.setPosition(4.5f, 15.80f - Plank.HEIGHT);
-            float quarterPi = (float) Math.PI / 4;
-            Vector2D speed = new Vector2D(0, BALL_START_SPEED)
-                    .rotate(-quarterPi + instance.random.nextFloat() * 2 * quarterPi);
-            if (instance.turn == Player.First) {
-                speed = speed.reverseY();
-            }
-            instance.ball.setSpeed(speed);
-            instance.currentPlankSpeed = PLANK_MOVING_SPEED;
+        instance.setBallStartPosition();
+        instance.firstPlank.setPosition(4.5f, Plank.HEIGHT + 0.2f);
+        instance.secondPlank.setPosition(4.5f, 15.80f - Plank.HEIGHT);
+        float quarterPi = (float) Math.PI / 4;
+        Vector2D speed = new Vector2D(0, BALL_START_SPEED)
+                .rotate(-quarterPi + instance.random.nextFloat() * 2 * quarterPi);
+        if (instance.turn == Player.First) {
+            speed = speed.reverseY();
         }
+        instance.ball.setSpeed(speed);
+        instance.currentPlankSpeed = PLANK_MOVING_SPEED;
+        instance.playing = true;
     }
 
     public static void stopGame() {
@@ -115,6 +115,15 @@ public final class GameProcessor {
             instance.timer.purge();
             instance.timer = null;
         }
+    }
+
+    public static void pauseGame() {
+        GameProcessor instance = getInstance();
+        instance.playing = false;
+    }
+
+    public static void resumeGame() {
+        instance.playing = true;
     }
 
     private void update() {
@@ -171,7 +180,7 @@ public final class GameProcessor {
                     && ball.getPosition().y <= secondPlank.getPosition().y) {
                 Vector2D speed = ball.getSpeed();
                 speed = speed.reverseY();
-                float angleLimit = (float) Math.PI / 20;
+                float angleLimit = (float) Math.PI / ANGLE_RANDOM_CONSTANT;
                 speed = speed
                         .rotate(-angleLimit + random.nextFloat() * 2 * angleLimit);
                 speed = speed.scale(1.07f);

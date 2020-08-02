@@ -23,6 +23,7 @@ import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.Interpolator;
 import android.view.animation.ScaleAnimation;
+import android.widget.TextView;
 
 import com.badlogic.gdx.backends.android.AndroidFragmentApplication;
 import com.rusloker.pong.Action;
@@ -66,6 +67,39 @@ public class GameFragment extends Fragment implements AndroidFragmentApplication
         binding.firstPlayerRight.setOnTouchListener(listener);
         binding.secondPlayerLeft.setOnTouchListener(listener);
         binding.secondPlayerRight.setOnTouchListener(listener);
+        binding.pause.setOnTouchListener((v, event) -> {
+            int action = event.getActionMasked();
+            switch (action) {
+                case MotionEvent.ACTION_DOWN: {
+                    v.setAlpha(1);
+                    break;
+                }
+                case MotionEvent.ACTION_CANCEL:
+                case MotionEvent.ACTION_UP: {
+                    switch (((TextView)v).getText().toString()) {
+                        case "||": {
+                            ((TextView) v).setText("|>");
+                            mViewModel.pause();
+                            break;
+                        }
+                        default:
+                        case "|>": {
+                            ((TextView) v).setText("||");
+                            try {
+                                Thread.sleep(100);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            mViewModel.resume();
+                            break;
+                        }
+                    }
+                    v.setAlpha(0.2f);
+                    break;
+                }
+            }
+            return true;
+        });
         GameMode gameMode = mViewModel.getGameMode();
         switch (gameMode) {
             case VsPlayer:
@@ -169,6 +203,13 @@ public class GameFragment extends Fragment implements AndroidFragmentApplication
     @Override
     public void exit() {
 
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        ((TextView) binding.pause).setText("|>");
+        mViewModel.pause();
     }
 
     @Override
