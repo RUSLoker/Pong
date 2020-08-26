@@ -6,12 +6,13 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.rusloker.pong.ai.CleverPongBot;
 import com.rusloker.pong.ai.PongBot;
-import com.rusloker.pong.ai.StupidPongBot;
 import com.rusloker.pong.engine.Ball;
 import com.rusloker.pong.engine.GameEntity;
 import com.rusloker.pong.engine.GameProcessor;
 import com.rusloker.pong.engine.Plank;
 import com.rusloker.pong.engine.Vector2D;
+import com.rusloker.pong.events.CallableDataEvent;
+import com.rusloker.pong.events.DataEvent;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -27,6 +28,8 @@ public final class GameRepository {
     private Collection<GameEntity> entities;
     private GameMode gameMode;
     private PongBot PongBot;
+    private CallableDataEvent<Boolean> pauseToggleEvent;
+    private CallableDataEvent<Pair<Integer, Integer>> scoreChangedEvent;
 
     private GameRepository(){
         textures = new HashMap<>();
@@ -34,6 +37,8 @@ public final class GameRepository {
         entities = Collections.emptyList();
         gameMode = GameMode.VsComputer;
         PongBot = new CleverPongBot();
+        pauseToggleEvent = new CallableDataEvent<>();
+        scoreChangedEvent = new CallableDataEvent<>();
     }
 
     private static GameRepository getInstance() {
@@ -131,10 +136,27 @@ public final class GameRepository {
     }
 
     public static void pauseGame() {
+        GameRepository instance = getInstance();
+        instance.pauseToggleEvent.call(true);
         GameProcessor.pauseGame();
     }
 
     public static void resumeGame() {
+        GameRepository instance = getInstance();
+        instance.pauseToggleEvent.call(false);
         GameProcessor.resumeGame();
+    }
+
+    public static DataEvent<Boolean> getPauseToggleEvent() {
+        return getInstance().pauseToggleEvent;
+    }
+
+    public static DataEvent<Pair<Integer, Integer>> getScoreChangedEvent() {
+        return getInstance().scoreChangedEvent;
+    }
+
+    public static void setScore(int firstScore, int secondScore) {
+        GameRepository instance = getInstance();
+        instance.scoreChangedEvent.call(new Pair<>(firstScore, secondScore));
     }
 }

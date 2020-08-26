@@ -5,6 +5,8 @@ import com.rusloker.pong.InputController;
 import com.rusloker.pong.Player;
 import com.rusloker.pong.Side;
 
+import org.omg.CORBA.MARSHAL;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -23,7 +25,8 @@ public final class GameProcessor {
     private final List<GameEntity> entities;
     private static final float PLANK_MOVING_SPEED = 8f;
     private static final float BALL_START_SPEED = 9f;
-    private static final float ANGLE_RANDOM_CONSTANT = 25f; /* recommended value is 20 */
+    private static final float ANGLE_RANDOM_CONSTANT = (float) Math.PI / 35f;
+    private static final float MIN_ANGLE = (float) Math.PI / 12 ;
     private Player turn;
     private static final float CALCULATION_DELAY = 0.002f;
     private float currentPlankSpeed = PLANK_MOVING_SPEED;
@@ -59,8 +62,9 @@ public final class GameProcessor {
         final GameProcessor instance = getInstance();
         instance.firstScore = 0;
         instance.secondScore = 0;
+        GameRepository.setScore(instance.firstScore, instance.secondScore);
         instance.setBallStartPosition();
-        instance.firstPlank.setPosition(4.5f, Plank.HEIGHT + 0.4f);
+        instance.firstPlank.setPosition(4.5f, Plank.HEIGHT + 0.2f);
         instance.secondPlank.setPosition(4.5f, 15.80f - Plank.HEIGHT);
         instance.entities.add(instance.ball);
         instance.entities.add(instance.firstPlank);
@@ -163,30 +167,46 @@ public final class GameProcessor {
         checkPlankPosition(firstPlank);
         checkPlankPosition(secondPlank);
 
+        //Plank-ball check
+        boolean firstPlankCollision = false;
         if (ball.getPosition().y <= 0) {
             turn = Player.First;
             secondScore++;
+            GameRepository.setScore(instance.firstScore, instance.secondScore);
             restartGame();
         } else if (ball.getPosition().y >= 16) {
             turn = Player.Second;
             firstScore++;
+            GameRepository.setScore(instance.firstScore, instance.secondScore);
             restartGame();
-        } else {
-            if (isBallCollidesPlank(ball, firstPlank)
+        } else if ((firstPlankCollision = isBallCollidesPlank(ball, firstPlank))
                     && ball.getSpeed().y < 0
                     && ball.getPosition().y >= firstPlank.getPosition().y
                     || isBallCollidesPlank(ball, secondPlank)
                     && ball.getSpeed().y > 0
                     && ball.getPosition().y <= secondPlank.getPosition().y) {
-                Vector2D speed = ball.getSpeed();
-                speed = speed.reverseY();
-                float angleLimit = (float) Math.PI / ANGLE_RANDOM_CONSTANT;
-                speed = speed
-                        .rotate(-angleLimit + random.nextFloat() * 2 * angleLimit);
-                speed = speed.scale(1.07f);
-                ball.setSpeed(speed);
-                currentPlankSpeed *= 1.005f;
+            Vector2D speed = ball.getSpeed();
+            speed = speed.reverseY();
+            if (firstPlankCollision) {
+                speed = speed.rotate((float) Math.PI / 100  * -firstPlank.getSpeed().x);
+                if (speed.y < 0)
+                    speed = speed.reverseY();
+            } else {
+                speed = speed.rotate((float) Math.PI / 100  * -secondPlank.getSpeed().x);
+                if (speed.y > 0)
+                    speed = speed.reverseY();
             }
+            speed = speed
+                    .rotate(-ANGLE_RANDOM_CONSTANT + random.nextFloat() * 2 * ANGLE_RANDOM_CONSTANT);
+            speed = speed.scale(1.07f);
+            float angle;
+            if ((angle = Vector2D.angleBetween(new Vector2D(1, 0), speed)) < MIN_ANGLE) {
+                speed = speed.rotate(MIN_ANGLE - angle);
+            } else if ((angle = Vector2D.angleBetween(new Vector2D(-1, 0), speed)) < MIN_ANGLE) {
+                speed = speed.rotate(angle - MIN_ANGLE);
+            }
+            ball.setSpeed(speed);
+            currentPlankSpeed *= 1.005f;
         }
         GameRepository.putEntities(entities);
     }
@@ -194,8 +214,10 @@ public final class GameProcessor {
     private void checkPlankPosition(Plank plank) {
         if (plank.getPosition().x + plank.getWidth() / 2 > 9) {
             plank.setPosition(new Vector2D(9 - plank.getWidth() / 2, plank.getPosition().y));
+            plank.setSpeed(Vector2D.zero);
         } else if (plank.getPosition().x - plank.getWidth() / 2 < 0) {
             plank.setPosition(new Vector2D(0 + plank.getWidth() / 2, plank.getPosition().y));
+            plank.setSpeed(Vector2D.zero);
         }
     }
 

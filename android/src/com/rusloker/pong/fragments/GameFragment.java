@@ -7,12 +7,15 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
+import android.graphics.Paint;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.text.SpannableString;
+import android.text.style.RelativeSizeSpan;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -67,6 +70,35 @@ public class GameFragment extends Fragment implements AndroidFragmentApplication
         binding.firstPlayerRight.setOnTouchListener(listener);
         binding.secondPlayerLeft.setOnTouchListener(listener);
         binding.secondPlayerRight.setOnTouchListener(listener);
+        mViewModel.getPauseGameEvent().observe(getViewLifecycleOwner(), (value) -> {
+            if (value) {
+                binding.pause.setText("|>");
+            } else {
+                binding.pause.setText("||");
+            }
+        });
+        mViewModel.getScoreChangedEvent().observe(getViewLifecycleOwner(), value -> {
+            SpannableString str = new SpannableString(String.valueOf(value.first));
+            if (str.charAt(0) == '6' || str.charAt(0) == '9') {
+                str = new SpannableString(str.toString() + ".");
+                str.setSpan(
+                        new RelativeSizeSpan(0.3f),
+                        str.length() - 1,
+                        str.length(),
+                        0);
+            }
+            binding.firstScore.setText(str);
+            str = new SpannableString(String.valueOf(value.second));
+            if (str.charAt(0) == '6' || str.charAt(0) == '9') {
+                str = new SpannableString(str.toString() + ".");
+                str.setSpan(
+                        new RelativeSizeSpan(0.3f),
+                        str.length() - 1,
+                        str.length(),
+                        0);
+            }
+            binding.secondScore.setText(str);
+        });
         binding.pause.setOnTouchListener((v, event) -> {
             int action = event.getActionMasked();
             switch (action) {
@@ -78,13 +110,11 @@ public class GameFragment extends Fragment implements AndroidFragmentApplication
                 case MotionEvent.ACTION_UP: {
                     switch (((TextView)v).getText().toString()) {
                         case "||": {
-                            ((TextView) v).setText("|>");
                             mViewModel.pause();
                             break;
                         }
                         default:
                         case "|>": {
-                            ((TextView) v).setText("||");
                             try {
                                 Thread.sleep(100);
                             } catch (InterruptedException e) {
@@ -172,7 +202,7 @@ public class GameFragment extends Fragment implements AndroidFragmentApplication
 
                 //Background animation
                 Animation animation = new ScaleAnimation(1f, 0f, 1f, 0f, diameter/2f, diameter/2f);
-                animation.setDuration(3500);
+                animation.setDuration(3600);
                 animation.setFillAfter(true);
                 animation.setInterpolator(new DecelerateInterpolator());
                 animation.setAnimationListener(new Animation.AnimationListener() {
@@ -273,7 +303,7 @@ public class GameFragment extends Fragment implements AndroidFragmentApplication
 
         @Override
         public float getInterpolation(float input) {
-            return (float) (0.1 * Math.E * Math.log(input) + 1);
+            return (float) (0.1 * Math.E * Math.log(input) + 1.01);
         }
     }
 }

@@ -12,7 +12,7 @@ public class CleverPongBot extends PongBot {
     private final Ball point = new Ball();
 
     public CleverPongBot() {
-        super(200);
+        super(250);
     }
 
     @Override
