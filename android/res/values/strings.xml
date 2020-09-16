@@ -6,6 +6,9 @@
     <string name="vs_player">%1$sOffline together</string>
     <string name="online">%1$sOnline</string>
     <string name="exit">%1$sExit</string>
+    <string name="lan">%1$sLAN</string>
+    <string name="find_game">%1$sFind game</string>
+    <string name="create_game">%1$sCreate game</string>
     <string name="selector">></string>
     <string name="selector_inactive">"> "</string>
     <string name="selector_active">" >"</string>

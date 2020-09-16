@@ -51,12 +51,18 @@
             tools:text="> Online" />
 
         <TextView
+            android:id="@+id/lan"
+            style="@style/main_menu_button_style"
+            android:layout_width="match_parent"
+            android:text='@{pointerActivenessStates[@id/lan] ? @string/lan(@string/selector_active) : @string/lan(@string/selector_inactive)}'
+            tools:text="> LAN"/>
+
+        <TextView
             android:id="@+id/vs_computer"
             style="@style/main_menu_button_style"
             android:layout_width="match_parent"
             android:text='@{pointerActivenessStates[@id/vs_computer] ? @string/vs_computer(@string/selector_active) : @string/vs_computer(@string/selector_inactive)}'
             tools:text="> Vs Computer"/>
-
 
         <TextView
             android:id="@+id/vs_player"

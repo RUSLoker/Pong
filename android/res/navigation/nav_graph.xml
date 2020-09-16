@@ -35,5 +35,16 @@
             app:exitAnim="@anim/nav_slide_exit"
             app:popEnterAnim="@anim/nav_slide_pop_enter"
             app:popExitAnim="@anim/nav_fade_pop_exit" />
+        <action
+            android:id="@+id/action_gameModeMenuFragment_to_lanMenuFragment"
+            app:destination="@id/lanMenuFragment"
+            app:enterAnim="@anim/nav_slide_enter"
+            app:exitAnim="@anim/nav_slide_exit"
+            app:popEnterAnim="@anim/nav_slide_pop_enter"
+            app:popExitAnim="@anim/nav_slide_pop_exit"/>
     </fragment>
+    <fragment
+        android:id="@+id/lanMenuFragment"
+        android:name="com.rusloker.pong.fragments.LanMenuFragment"
+        android:label="LanMenuFragment" />
 </navigation>

@@ -5,5 +5,6 @@ import java.io.Serializable;
 public enum GameMode {
     VsComputer,
     VsPlayer,
-    Online
+    Online,
+    Lan
 }

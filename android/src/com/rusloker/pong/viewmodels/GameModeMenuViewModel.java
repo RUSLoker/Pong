@@ -1,6 +1,10 @@
 package com.rusloker.pong.viewmodels;
 
+import android.content.Context;
+
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModel;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.rusloker.pong.GameMode;
 import com.rusloker.pong.GameRepository;
@@ -14,22 +18,32 @@ public class GameModeMenuViewModel extends ViewModel {
         }
     }
 
-    public void menuButtonClicked(int id) {
-        GameMode gameMode = null;
+    public void menuButtonClicked(int id, Fragment fragment) {
         switch (id) {
             case R.id.vs_computer:{
-                gameMode = GameMode.VsComputer;
+                setGameMode(GameMode.VsComputer);
+                NavHostFragment.findNavController(fragment)
+                        .navigate(R.id.action_gameModeMenuFragment_to_gameFragment);
                 break;
             }
             case R.id.vs_player: {
-                gameMode = GameMode.VsPlayer;
+                setGameMode(GameMode.VsPlayer);
+                NavHostFragment.findNavController(fragment)
+                        .navigate(R.id.action_gameModeMenuFragment_to_gameFragment);
                 break;
             }
             case R.id.online: {
-                gameMode = GameMode.Online;
+                setGameMode(GameMode.Online);
+                NavHostFragment.findNavController(fragment)
+                        .navigate(R.id.action_gameModeMenuFragment_to_gameFragment);
+                break;
+            }
+            case R.id.lan: {
+                setGameMode(GameMode.Lan);
+                NavHostFragment.findNavController(fragment)
+                        .navigate(R.id.action_gameModeMenuFragment_to_lanMenuFragment);
                 break;
             }
         }
-        setGameMode(gameMode);
     }
 }
